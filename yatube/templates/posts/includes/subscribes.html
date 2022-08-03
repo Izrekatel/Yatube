@@ -1,0 +1,16 @@
+{% if authors %}
+<div class="row my-3">
+  <ul class="nav nav-tabs">
+    {% for author in authors %}
+    <li class="nav-item">
+      <a 
+        class="nav-link {% if index %}active{% endif %}"
+        href="{% url 'posts:profile' author %}"
+      >
+      {{ author.get_full_name}}
+    </a>
+    </li>
+    {% endfor %}
+  </ul>
+</div>
+{% endif %}

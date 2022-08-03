@@ -6,6 +6,9 @@
 {% block content %}
 <h1>Последние обновления подписок</h1>
 {% include 'posts/includes/switcher.html' %}
+{% cache 20 authors_list request.user%}
+{% include 'posts/includes/subscribes.html' %}
+{% endcache %}
 {% if not page_obj %}
   <div class="px-5 py-5 my-5 text-center">
     <p> Список Ваших подписок пуст.</p>

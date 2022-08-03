@@ -1,14 +1,23 @@
 {% extends 'base.html' %}
+{% load cache %}
 {% block title %}
   Последние обновления подписок
 {% endblock %}
 {% block content %}
-  <h1>Последние обновления подписок</h1>
-  {% include 'posts/includes/switcher.html' %}
+<h1>Последние обновления подписок</h1>
+{% include 'posts/includes/switcher.html' %}
+{% if not page_obj %}
+  <div class="px-5 py-5 my-5 text-center">
+    <p> Список Ваших подписок пуст.</p>
+  </div>
+{% else %}
+{% cache 20 follow_page request.user%}
   {% for post in page_obj %}
     {% include 'posts/includes/post_list.html' %}  
     {% include 'posts/includes/href_group.html' %}
     {% if not forloop.last %}<hr>{% endif %}
   {% endfor %}
-  {% include 'posts/includes/paginator.html' %}
+  {% endcache %}
+{% endif %}  
+{% include 'posts/includes/paginator.html' %}
 {% endblock %}

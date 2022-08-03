@@ -10,7 +10,6 @@ from .models import Follow, Group, Post, User
 POSTS_ON_PAGE = 10
 
 
-@cache_page(20, key_prefix='index_page')
 def index(request):
     template = 'posts/index.html'
     posts = Post.objects.all()

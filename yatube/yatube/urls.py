@@ -1,10 +1,12 @@
 from django.conf import settings
-from django.conf.urls import url
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.contrib.auth.models import User
 from django.urls import include, path
+from django.views.generic import TemplateView
 from rest_framework import routers, serializers, viewsets
+
+from yatube.schema import schema
 
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
@@ -27,10 +29,13 @@ urlpatterns = [
     path('auth/', include('users.urls', namespace='users')),
     path('auth/', include('django.contrib.auth.urls')),
     path('', include('posts.urls', namespace='posts')),
-    url(r'api/', include(router.urls)),
-    url(r'api/api-auth/',
-        include('rest_framework.urls', namespace='rest_framework')
-        ),
+    path('api/', include('api.urls', namespace='api')),
+    path(
+        'redoc/',
+        TemplateView.as_view(template_name='redoc.html'),
+        name='redoc'
+    ),
+    path('schema/', schema, name='schema'),
 ]
 
 handler404 = 'core.views.page_not_found'
@@ -40,6 +45,9 @@ handler403 = 'core.views.permission_denied'
 if settings.DEBUG:
     import debug_toolbar
     urlpatterns += (path('__debug__/', include(debug_toolbar.urls)),)
-    urlpatterns += static(settings.MEDIA_URL,
-                          document_root=settings.MEDIA_ROOT
-                          )
+    urlpatterns += static(
+        settings.MEDIA_URL, document_root=settings.MEDIA_ROOT
+    )
+    urlpatterns += static(
+        settings.STATIC_URL, document_root=settings.STATIC_ROOT
+    )

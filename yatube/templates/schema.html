@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block title %}{{ schema.title }}{% endblock %}
+{% block content %}
+<h1 class="mt-4">В проектe есть такие эндпоинты:</h1>
+  <table class="table caption-bottom">
+    <thead class="table-dark">
+      <tr>
+        <th scope="col">Path</th>
+        <th scope="col">Method</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for endpoint in schema.endpoints %}
+      <tr>
+          <th scope="row">{{ endpoint.path }}</th>
+          <td>{{ endpoint.method }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

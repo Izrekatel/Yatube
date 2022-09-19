@@ -1,20 +1,19 @@
-from django.contrib.auth.views import (LoginView, LogoutView,
+from django.contrib.auth.views import (LogoutView,
                                        PasswordChangeDoneView,
                                        PasswordChangeView,
                                        PasswordResetCompleteView,
                                        PasswordResetConfirmView,
                                        PasswordResetDoneView,
                                        PasswordResetView)
-from django.urls import path
+from allauth.account.views import EmailView, EmailVerificationSentView, ConfirmEmailView
+from django.urls import path, re_path
 
 from . import views
 
 app_name = 'users'
 
 urlpatterns = [
-    (path('login/',
-     LoginView.as_view(template_name='users/login.html'),
-     name='login')),
+    path('login/', views.CustomLoginView.as_view(), name='login'),
     (path('logout/',
      LogoutView.as_view(template_name='users/logged_out.html'),
      name='logout')),
@@ -41,4 +40,11 @@ urlpatterns = [
      (template_name='users/password_reset_complete.html'),
      name='password_reset_complete')),
     path('signup/', views.SignUp.as_view(), name='signup'),
+    path('account/', views.account, name='account'),
+    path('account/update/', views.account_update, name='account_update'),
+    path('email/', EmailView.as_view(template_name='users/email.html'), name='email'),
+    path('confirm-email/', EmailVerificationSentView.as_view(),
+         name='users/account_email_verification_sent'),
+    re_path(r'^confirm-email/(?P<key>[-:\w]+)/$', ConfirmEmailView.as_view(),
+            name='users/account_confirm_email'),
 ]

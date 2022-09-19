@@ -2,7 +2,8 @@
 <article>
   <ul>
     <li>
-      Автор: {{ post.author.get_full_name }} 
+      Автор: <img src={{ post.author.avatar }} width="30" height="30" class="d-inline-block align-top" alt="">
+      {{ post.author.get_full_name }} 
       <a href="{% url 'posts:profile' post.author.username %}">все посты пользователя</a>
     </li>
     <li>
@@ -13,7 +14,7 @@
     </li>
     {% if post.comments.count > 0 %}
     <li>
-      Последний комментарий {{ post.comments.first.created |date:"d E Y"}} от <a href="{% url 'posts:profile' post.comments.first.author %}"> {{ post.comments.first.author.get_full_name}} </a>
+      Последний комментарий {{ post.comments.first.created |date:"d E Y"}} от <a href="{% url 'posts:profile' post.comments.first.author.username %}"> {{ post.comments.first.author.get_full_name}} </a>
     </li>
     {% endif %}
   </ul>

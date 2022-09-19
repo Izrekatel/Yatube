@@ -21,13 +21,14 @@
         </li>
       {% endif %}
       <li class="list-group-item">
-        Автор: {{ post.author.get_full_name }}
+        Автор: <img src={{ post.author.avatar }} width="30" height="30" class="d-inline-block align-top" alt="">
+        {{ post.author.get_full_name }}
       </li>
       <li class="list-group-item d-flex justify-content-between align-items-center">
         Всего постов автора:  <span >{{ post.author.posts.count }}</span>
       </li>
       <li class="list-group-item">
-        <a href="{% url 'posts:profile' post.author %}">
+        <a href="{% url 'posts:profile' post.author.username %}">
         все посты пользователя
         </a>
       </li>
@@ -71,6 +72,7 @@
             <h5 class="mt-0">
               Пользователь
               <a href="{% url 'posts:profile' comment.author.username %}">
+                <img src={{ comment.author.avatar }} width="30" height="30" class="d-inline-block align-top" alt="">
                 {{ comment.author.get_full_name }}
               </a> написал {{ comment.created |date:"d E Y"}}:
             </h5>

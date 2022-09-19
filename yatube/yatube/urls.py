@@ -1,27 +1,11 @@
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
-from django.contrib.auth.models import User
 from django.urls import include, path
 from django.views.generic import TemplateView
-from rest_framework import routers, serializers, viewsets
 
 from yatube.schema import schema
 
-
-class UserSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = User
-        fields = ['url', 'username', 'email', 'is_staff']
-
-
-class UserViewSet(viewsets.ModelViewSet):
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
-
-
-router = routers.DefaultRouter()
-router.register(r'users', UserViewSet)
 
 urlpatterns = [
     path('about/', include('about.urls', namespace='about')),
@@ -36,6 +20,7 @@ urlpatterns = [
         name='redoc'
     ),
     path('schema/', schema, name='schema'),
+    path('accounts/', include('allauth.urls')),
 ]
 
 handler404 = 'core.views.page_not_found'

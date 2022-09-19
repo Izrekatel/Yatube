@@ -1,6 +1,10 @@
 {% extends 'base.html' %}
 {% block title %}{{ schema.title }}{% endblock %}
 {% block content %}
+<h1 class="mt-4">
+  <a href="{% url 'redoc' %}">Подробная документация API</a>
+</h1>
+
 <h1 class="mt-4">В проектe есть такие эндпоинты:</h1>
   <table class="table caption-bottom">
     <thead class="table-dark">

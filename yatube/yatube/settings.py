@@ -1,5 +1,11 @@
 import os
 from datetime import timedelta
+from dotenv import load_dotenv
+
+load_dotenv()
+
+# Данные для авторизации.
+MAIL_PASSWORD = os.getenv('MAIL_PASSWORD')
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -17,10 +23,11 @@ ALLOWED_HOSTS: list = [
 ]
 
 INSTALLED_APPS = [
-    'about.apps.AboutConfig',
-    'core.apps.CoreConfig',
-    'users.apps.UsersConfig',
-    'posts.apps.PostsConfig',
+    'api',
+    'about',
+    'core',
+    'users',
+    'posts',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -29,10 +36,13 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'sorl.thumbnail',
     'debug_toolbar',
-    'djoser',
     'rest_framework',
     'rest_framework_simplejwt',
-    'api.apps.ApiConfig',
+    'djoser',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.weibo',
 ]
 
 MIDDLEWARE = [
@@ -102,9 +112,11 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+STATIC_DIRS = os.path.join(BASE_DIR, 'static')
+
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'static/root')
+# STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 LOGIN_URL = 'users:login'
 
@@ -112,7 +124,8 @@ LOGIN_REDIRECT_URL = 'posts:index'
 
 # LOGOUT_REDIRECT_URL = 'users:logout'
 
-EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
+#EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
 EMAIL_FILE_PATH = os.path.join(BASE_DIR, 'sent_emails')
 
@@ -153,3 +166,26 @@ SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(days=15),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=15),
 }
+
+AUTH_USER_MODEL = 'posts.CustomUser'
+
+AUTHENTICATION_BACKENDS = [
+    'users.auth.EmailAuthBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
+
+ACCOUNT_AUTHENTICATION_METHOD = 'username_email'
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = True
+ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 1
+
+
+# Настройки электронной почты
+EMAIL_HOST = 'smtp.mail.ru'
+EMAIL_PORT = 465
+EMAIL_USE_TLS = False
+EMAIL_USE_SSL = True
+EMAIL_HOST_USER = 'agu-66@mail.ru'
+EMAIL_HOST_PASSWORD = MAIL_PASSWORD
+EMAIL_FROM = 'agu-66@mail.ru'  # ваш QQ номер аккаунта
+DEFAULT_FROM_EMAIL = 'agu-66@mail.ru'

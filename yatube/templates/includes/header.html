@@ -29,13 +29,6 @@
             Схема API
           </a>
         </li>
-        <li class="nav-item">              
-          <a class="nav-link {% if view_name  == 'redoc' %}active{% endif %}" 
-             href="{% url 'redoc' %}"
-          >
-            Документация API
-          </a>
-        </li>
         {% if request.user.is_authenticated %}
         <li class="nav-item">              
           <a class="nav-link {% if view_name  == 'posts:post_create' %}active{% endif %}" 
@@ -58,8 +51,13 @@
           Выйти
           </a>
         </li>
-        <li>
-          Пользователь: {{ user.username }}
+        <li class="nav-item">
+          <a class="nav-link {% if view_name  == 'users:account' %}active{% endif %}" 
+             href="{% url 'users:account' %}"
+          >
+          <img src={{ user.avatar }} width="30" height="30" class="d-inline-block align-top" alt="">
+          {{ user.username }}
+          </a>
         </li>
         {% else %}
         <li class="nav-item">              

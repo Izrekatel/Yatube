@@ -55,8 +55,8 @@
           <a class="nav-link {% if view_name  == 'users:account' %}active{% endif %}" 
              href="{% url 'users:account' %}"
           >
-          <img src={{ user.avatar }} width="30" height="30" class="d-inline-block align-top" alt="">
-          {{ user.username }}
+          <img src={{ request.user.avatar }} width="30" height="30" alt="">
+          {{ request.user.username }}
           </a>
         </li>
         {% else %}
